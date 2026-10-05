@@ -109,7 +109,7 @@ export default () => [
       text(g, 'ราว 4 กม.', (x0 + lx) / 2, 1395 * u, { size: 44 * u, weight: 800, family: THAI, color: GOLD, alpha: clamp((t - 3) / 0.3) });
       kicker('จุดที่พบ: เนินหินเหนือน้ำ', TX, 250 * u, t, { color: C.red });
       say('ลึกเข้าไปเลย “หาดพัทยา” ราว 400 ม.', TX, 345 * u, t - 0.2, { size: 46 * u, weight: 800, color: C.cream });
-      say('หน่วยซีลและแพทย์ทหาร\nดำน้ำเข้าไปอยู่เป็นเพื่อนเด็ก ๆ', TX, 1460 * u, t - 5.0, { size: 42 * u, weight: 800, color: C.cream });
+      say('หน่วยซีลและแพทย์ทหาร\nดำน้ำเข้าไปอยู่เป็นเพื่อนเด็ก ๆ', TX, 1490 * u, t - 5.0, { size: 42 * u, weight: 800, color: C.cream });
       finish(0.8);
     } },
   { from: bar(41), to: bar(44), cues: [[0.2, 'riser', 0.5], [3.75, 'impact', 0.9], [5.6, 'thump', 0.5]],
