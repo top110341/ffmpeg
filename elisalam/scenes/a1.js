@@ -255,7 +255,7 @@ export default () => [
   // ---------------- the West Coast trip
   { from: bar(9), to: bar(12), cues: [[0.2, 'whoosh', 0.6], [1.4, 'pop', 0.6], [3.2, 'pop', 0.6], [5.0, 'pop', 0.5]],
     draw(t) {
-      const cam = { lat: track(t, [[0, 46], [0.1, 42.2]], 'heavy'), lon: -119.5, z: track(t, [[0, 40], [0.1, 60]], 'heavy') * u };
+      const cam = { lat: track(t, [[0, 45], [0.1, 40.8]], 'heavy'), lon: -119.5, z: track(t, [[0, 36], [0.1, 52]], 'heavy') * u };
       const P = mapWest(cam);
       const v = P(PL.van), s = P(PL.sd), l = P(PL.la), c = P(PL.sc), f = P(PL.sf);
       const arc = (a, b, k = 0.25) => Array.from({ length: 24 }, (_, i) => { const q = i / 23, mx = (a[0] + b[0]) / 2 + (b[1] - a[1]) * k, my = (a[1] + b[1]) / 2 - (b[0] - a[0]) * k;
@@ -266,13 +266,13 @@ export default () => [
       pin(...v, t - 0.6, { label: 'แวนคูเวอร์', side: 1 });
       pin(...s, t - 2.2, { label: 'ซานดิเอโก', side: 1, color: C.fog });
       pin(...l, t - 3.2, { label: 'ลอสแอนเจลิส', side: 1, color: E.lamp });
-      pin(...c, t - 5.2, { label: 'ซานตาครูซ', side: -1, color: C.fog });
+      pin(...c, t - 5.2, { label: 'ซานตาครูซ', side: 1, color: C.fog });
       pin(...f, t - 5.6, { label: 'ซานฟรานซิสโก', side: -1, color: C.fog });
       topScrim(560, '8,12,21', 0.95);
       kicker('มกราคม 2013', TX, 270 * u, t, { color: E.lamp });
       say('ทริปเที่ยวคนเดียวที่เธอเรียกว่า\n“West Coast tour”', TX, 370 * u, t - 0.2, { size: 48 * u, weight: 800, color: C.cream });
-      band(1430 * u, 150 * u, 0.7);
-      say('เส้นประ = จุดหมายที่วางแผนไว้ต่อ · แผนที่จำลอง', TX, 1520 * u, t - 5.0, { size: 32 * u, weight: 700, color: C.fog });
+      band(1460 * u, 130 * u, 0.7);
+      say('เส้นประ = จุดหมายที่วางแผนไว้ต่อ · แผนที่จำลอง', TX, 1540 * u, t - 5.0, { size: 32 * u, weight: 700, color: C.fog });
       finish(0.8);
     } },
   // ---------------- 26 January: check-in

@@ -224,7 +224,7 @@ export default () => [
       kicker('มิถุนายน 2013 · ผลชันสูตรของ LA County', TX, 300 * u, t, { color: C.red });
       say('สรุปว่า “จมน้ำโดยอุบัติเหตุ”', TX, 410 * u, t - 0.2, { size: 52 * u, weight: 800, color: C.ink });
       stamp('ACCIDENTAL', TX, 1140 * u, t - 5.0, { size: 110 * u, rot: -0.1 });
-      say('โรคไบโพลาร์ถูกระบุว่าเป็นปัจจัยสำคัญ\nไม่พบร่องรอยการทำร้ายร่างกาย', TX, 1300 * u + 60 * u, t - 6.0, { size: 40 * u, weight: 800, color: C.inkSoft });
+      say('โรคไบโพลาร์ถูกระบุว่าเป็นปัจจัยสำคัญ\nไม่พบร่องรอยการทำร้ายร่างกาย', TX, 1480 * u, t - 6.0, { size: 40 * u, weight: 800, color: C.inkSoft });
       finish(0.6);
     } },
   // ---------------- toxicology
@@ -272,7 +272,7 @@ export default () => [
   { from: bar(50), to: bar(53), cues: Array.from({ length: 6 }, (_, i) => [0.2 + i * 0.35, 'pop', 0.4]).concat([[3.6, 'swish', 0.4], [4.2, 'swish', 0.4], [4.8, 'swish', 0.4], [5.4, 'swish', 0.4]]),
     draw(t) {
       night('#0A0C14');
-      const C6 = ['โรงแรมนี้ผีสิงแน่นอน', 'มีคนซ่อนอยู่นอกลิฟต์!', 'ต้องเป็นคำสาปของตึก', 'เหมือนหนังผีเรื่องนั้นเลย', 'คลิปนี้มีอะไรซ่อนอยู่', 'จับตาแขกห้องข้าง ๆ'];
+      const C6 = ['โรงแรมนี้ผีสิงแน่นอน', 'มีคนซ่อนอยู่นอกลิฟต์!', 'ต้องเป็นคำสาปของตึก', 'เหมือนในหนังผีเลย', 'คลิปนี้มีอะไรซ่อนอยู่', 'จับตาแขกห้องข้าง ๆ'];
       phone(TX, 960 * u, 440 * u, (x, y, w, h) => {
         g.fillStyle = '#161B26'; g.fillRect(x, y, w, 110 * u);
         text(g, 'ความคิดเห็น', x + w / 2, y + 74 * u, { size: 30 * u, weight: 700, family: THAI, color: C.fog });
@@ -343,8 +343,8 @@ export default () => [
       sky(t, { top: '#080B14', bot: '#1F2840', stars: 0.8 });
       skyline(1450 * u, t, { seed: 33, hmin: 120, hvar: 540, lit: 0.3, color: '#0B0E18' });
       g.fillStyle = '#0B0E18'; g.fillRect(0, 1448 * u, W, H);
-      figure(300 * u, 1450 * u, 260 * u, { color: '#05060B', armR: 0.5 });
-      figure(400 * u, 1450 * u, 250 * u, { color: '#05060B', armL: 0.5 });
+      figure(TX - 70 * u, 1460 * u, 420 * u, { color: '#05060B', armR: 0.55 });
+      figure(TX + 70 * u, 1460 * u, 400 * u, { color: '#05060B', armL: 0.55 });
       band(200 * u, 560 * u, 0.55);
       say('ถ้าคุณหรือคนใกล้ตัว\nกำลังลำบาก', TX, 300 * u, t - 0.2, { size: 54 * u, weight: 800, color: C.cream });
       say('ลองคุยกับใครสักคน', TX, 490 * u, t - 1.6, { size: 60 * u, weight: 800, color: E.lamp });
@@ -361,7 +361,7 @@ export default () => [
       big('Elisa Lam', TX, 760 * u, t, { size: 170 * u, color: C.cream });
       const p = spring(t - 0.7, 'default');
       g.fillStyle = E.lamp; g.fillRect(TX - 300 * u * p, 840 * u, 600 * u * p, 8 * u);
-      say('แวนคูเวอร์ · 2013', TX, 960 * u, t - 1.0, { size: 46 * u, weight: 800, color: C.fog });
+      say('นักศึกษาจากแวนคูเวอร์ · จากไปเมื่อปี 2013', TX, 960 * u, t - 1.0, { size: 46 * u, weight: 800, color: C.fog });
       say('จดจำเธอในฐานะคนคนหนึ่ง\nไม่ใช่คลิปไวรัล', TX, 1120 * u, t - 2.5, { size: 50 * u, weight: 800, color: E.lamp });
       // a row of soft city lights
       for (let i = 0; i < 14; i++) { const x = (60 + i * 70) * u, a = 0.3 + 0.2 * noise(t * 0.6 + i, 4);
@@ -376,7 +376,7 @@ export default () => [
       band(190 * u, 520 * u, 0.82);
       say('เคยเห็นเรื่องจริงของใครสักคน\nถูกโลกออนไลน์ตัดสินก่อนข้อเท็จจริงไหม?', TX, 290 * u, t - 0.3, { size: 44 * u, weight: 800, color: C.cream });
       say('คอมเมนต์บอกได้เลย', TX, 470 * u, t - 2.5, { size: 48 * u, weight: 800, color: E.lamp });
-      say('ลำบากใจ โทร 1323 ได้ตลอด 24 ชั่วโมง', TX, 590 * u, t - 3.5, { size: 34 * u, weight: 700, color: C.fog });
+      say('สายด่วนสุขภาพจิต 1323 · ตลอด 24 ชั่วโมง', TX, 590 * u, t - 3.5, { size: 34 * u, weight: 700, color: C.fog });
       finish(0.8);
     } },
 ];
