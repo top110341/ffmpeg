@@ -154,8 +154,8 @@ export default () => [
       g.fillStyle = 'rgba(11,15,20,0.82)'; g.fillRect(0, 300 * u, W, 210 * u);
       const n = 64.8e9 * clamp(spring(t - 0.1, 'heavy'));
       text(g, `$${fmt(Math.round(n / 1e8) * 1e8)}`, TX, 450 * u, { size: 104 * u, weight: 400, family: SERIF, color: t > 1.6 ? C.red : C.cream });
-      g.fillStyle = 'rgba(11,15,20,0.82)'; if (t > 1.5) g.fillRect(0, 1330 * u, W, 240 * u);
-      say('เงิน 64,800 ล้านดอลลาร์\nที่ไม่เคยมีอยู่จริง', TX, 1420 * u, t - 1.6, { size: 52 * u, weight: 800, color: C.cream });
+      g.fillStyle = 'rgba(11,15,20,0.82)'; if (t > 1.1) g.fillRect(0, 1330 * u, W, 240 * u);
+      say('เงิน 64,800 ล้านดอลลาร์\nที่ไม่เคยมีอยู่จริง', TX, 1420 * u, t - 1.2, { size: 52 * u, weight: 800, color: C.cream });
       finish(0.8);
     } },
   { from: bar(2), to: bar(4), cues: [[0, 'riser', 0.4], [2.5, 'pop', 0.6]],
@@ -297,9 +297,9 @@ export default () => [
       paper();
       kicker('แชร์ลูกโซ่ทำงานอย่างไร', TX, 300 * u, t);
       say('เงินของคนใหม่ ถูกจ่ายเป็น\n“กำไร” ให้คนเก่า', TX, 410 * u, t - 0.2, { size: 50 * u, weight: 800 });
-      pyramid(TX, 720 * u, t, { appear: 0.2, rows: 5, gap: 150 * u });
-      text(g, 'รุ่นแรก', 120 * u, 700 * u, { size: 36 * u, weight: 800, family: THAI, color: C.inkSoft, align: 'left', alpha: clamp((t - 0.3) / 0.3) });
-      text(g, 'คนใหม่', 120 * u, 1340 * u, { size: 36 * u, weight: 800, family: THAI, color: C.red, align: 'left', alpha: clamp((t - 2.1) / 0.3) });
+      pyramid(TX + 30 * u, 720 * u, t, { appear: 0.2, rows: 5, gap: 150 * u, sp: 130 * u });
+      text(g, 'รุ่นแรก', 90 * u, 700 * u, { size: 36 * u, weight: 800, family: THAI, color: C.inkSoft, align: 'left', alpha: clamp((t - 0.3) / 0.3) });
+      text(g, 'คนใหม่', 90 * u, 1336 * u, { size: 36 * u, weight: 800, family: THAI, color: C.red, align: 'left', alpha: clamp((t - 2.1) / 0.3) });
       say('ไม่มีกำไรจริง มีแค่เงินที่หมุนต่อกันไป', TX, 1460 * u, t - 6.0, { size: 44 * u, weight: 800, color: C.red });
       finish(0.6);
     } },

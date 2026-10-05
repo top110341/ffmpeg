@@ -181,7 +181,7 @@ export default () => [
     draw(t) {
       night('#0D0F14');
       const fall = clamp(t / 0.55);
-      if (t < 0.6) drop(TX, 200 * u + fall * fall * 700 * u, 220 * u);
+      if (t < 0.6) drop(TX, 600 * u + fall * fall * 300 * u, 220 * u);
       else {
         const s = clamp(spring(t - 0.6, 'snappy'));
         for (let i = 0; i < 200; i++) { const c = i % 20, r = Math.floor(i / 20);
@@ -232,9 +232,9 @@ export default () => [
       const ages = ['16', '17', '18', '19'];
       flip(TX, 560 * u, 300 * u, 300 * u, ages, ages.map((_, i) => 0.1 + i * 0.2), t, { size: 220 * u, bg: C.ink, fg: C.paper, r: 16 * u });
       text(g, 'ปี', TX + 210 * u, 600 * u, { size: 52 * u, weight: 800, family: THAI, color: C.inkSoft, alpha: clamp(t - 0.7) });
-      turtle(TX, 1180 * u, 170 * u * clamp(spring(t - 0.8, 'default')), '#2B3A55', { collar: '#1B2638' });
-      say('นักศึกษาวิศวกรรมเคมี มหาวิทยาลัย Stanford', TX, 1300 * u, t - 2.5, { size: 44 * u, weight: 800 });
-      say('ก่อตั้งบริษัท แล้วไม่นานก็ลาออกจากมหาวิทยาลัย', TX, 1400 * u, t - 5.0, { size: 44 * u, weight: 800, color: C.red });
+      turtle(TX, 1090 * u, 150 * u * clamp(spring(t - 0.8, 'default')), '#2B3A55', { collar: '#1B2638' });
+      say('Elizabeth Holmes นักศึกษาวิศวกรรมเคมี\nแห่ง Stanford ก่อตั้งบริษัทของตัวเอง', TX, 1250 * u, t - 2.5, { size: 44 * u, weight: 800 });
+      say('ไม่นานก็ลาออกจากมหาวิทยาลัย', TX, 1440 * u, t - 5.0, { size: 44 * u, weight: 800, color: C.red });
       finish(0.6);
     } },
   { from: bar(9), to: bar(11), cues: [[0.2, 'swish', 0.5], [2.5, 'pop', 0.8]],

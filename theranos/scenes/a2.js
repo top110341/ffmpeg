@@ -115,7 +115,7 @@ export default () => [
       edison(TX, 1180 * u, 600 * u, { prog: err ? 0.97 : remap(t, 0.2, 2.4) * 0.97, label: err ? 'ERROR' : 'ANALYZING', err });
       g.fillStyle = 'rgba(10,12,16,0.8)'; g.fillRect(0, 220 * u, W, 300 * u);
       kicker('รายงานระบุว่า', TX, 290 * u, t, { color: PINK });
-      say('เครื่อง Edison ใช้ตรวจจริงเพียงไม่กี่รายการ', TX, 400 * u, t - 0.2, { size: 48 * u, weight: 800, color: C.cream });
+      say('Edison ใช้ตรวจจริงเพียงไม่กี่รายการ', TX, 400 * u, t - 0.2, { size: 48 * u, weight: 800, color: C.cream });
       say('Theranos ปฏิเสธ บอกว่ารายงานไม่ถูกต้อง', TX, 1300 * u, t - 2.5, { size: 44 * u, weight: 800, color: C.cream });
       say('แต่หน่วยงานรัฐเริ่มเข้าตรวจสอบ', TX, 1420 * u, t - 5.0, { size: 50 * u, weight: 800, color: PINK });
       finish(0.8);
@@ -145,7 +145,7 @@ export default () => [
     draw(t) {
       const [sx, sy] = shake(t, 4.4, 18); g.translate(sx, sy);
       night('#0D0F14');
-      const down = clamp(spring(t - 2.5, 20, 9));
+      const down = t > 4.4 ? 1 : remap(t, 2.5, 4.4) ** 2;
       magazine(TX, 830 * u, 460 * u, t, { line: t > 4.4 ? '$0' : '$4.5B', sub: 'NET WORTH', bg: t > 4.4 ? '#BDB6A6' : '#E7E1D3' });
       text(g, money(4.5e9 * (1 - down)), TX, 1340 * u, { size: 104 * u, weight: 400, family: SERIF, color: t > 4.4 ? PINK : C.cream });
       kicker('มิถุนายน 2016 · Forbes', TX, 280 * u, t, { color: PINK });
@@ -193,16 +193,17 @@ export default () => [
       kicker('ปี 2018', TX, 300 * u, t);
       // book "Bad Blood" (generic cover)
       const b = clamp(spring(t - 0.2, 'heavy'));
-      g.save(); g.translate(780 * u, 640 * u + (1 - b) * 500 * u); g.rotate(0.06);
+      g.save(); g.translate(TX - 170 * u, 1370 * u + (1 - b) * 500 * u); g.rotate(-0.05);
       g.fillStyle = '#1A1A1A'; g.fillRect(-120 * u, -170 * u, 240 * u, 340 * u);
       drop(0, -40 * u, 110 * u, { shine: 0 });
       text(g, 'BAD BLOOD', 0, 100 * u, { size: 38 * u, weight: 800, family: SANS, color: '#F4F0E6' });
       g.restore();
       dated('พฤษภาคม', 'หนังสือ Bad Blood ของ Carreyrou ออกวางขาย', 110 * u, 520 * u, t, 0.2);
-      dated('มิถุนายน', 'Holmes และ Balwani ถูกฟ้องคดีอาญา', 110 * u, 880 * u, t, 2.5);
-      dated('กันยายน', 'Theranos ประกาศเลิกกิจการ', 110 * u, 1110 * u, t, 5.0, C.red);
+      dated('มิถุนายน', 'Holmes และ Balwani ถูกฟ้องคดีอาญา', 110 * u, 700 * u, t, 2.5);
+      dated('กันยายน', 'Theranos ประกาศเลิกกิจการ', 110 * u, 880 * u, t, 5.0, C.red);
       const k = clamp((t - 5.0) / 1.2);
-      g.save(); g.globalAlpha = 1 - k * 0.8; edison(TX, 1520 * u, 300 * u, { prog: 0 }); g.restore();
+      g.save(); g.globalAlpha = 1 - k * 0.8; edison(TX + 200 * u, 1520 * u, 320 * u, { prog: 0 }); g.restore();
+      if (t > 5.0) stamp('CLOSED', TX + 200 * u, 1390 * u, t - 5.6, { size: 70 * u, rot: -0.1 });
       finish(0.6);
     } },
   // ---------------- chapter 7 — the trial
@@ -267,11 +268,18 @@ export default () => [
   { from: bar(62), to: bar(64), cues: [[0.2, 'thump', 0.6], [2.5, 'pop', 0.6], [3.75, 'pop', 0.6]],
     draw(t) {
       paper();
+      g.fillStyle = C.paper3; g.fillRect(70 * u, 380 * u, 5 * u, 760 * u * clamp(spring(t - 0.1, 'heavy')));
+      [[0.2, 400], [2.5, 680], [3.75, 960]].forEach(([at, y]) => { const p = clamp(spring(t - at, 'playful')); g.fillStyle = C.red; g.beginPath(); g.arc(72 * u, y * u, 14 * u * p, 0, 7); g.fill(); });
+      // small barred window with daylight behind
+      g.fillStyle = '#BFD3DC'; rrect(g, TX - 130 * u, 1110 * u, 260 * u, 150 * u, 10 * u); g.fill();
+      g.fillStyle = '#E9D9A6'; g.beginPath(); g.arc(TX + 60 * u, 1170 * u, 34 * u, 0, 7); g.fill();
+      g.fillStyle = C.ink; for (let i = 0; i < 5; i++) g.fillRect(TX - 110 * u + i * 52 * u, 1110 * u, 10 * u, 150 * u * clamp(spring(t - 0.3 - i * 0.05, 'heavy')));
+      g.strokeStyle = C.ink; g.lineWidth = 8 * u; rrect(g, TX - 130 * u, 1110 * u, 260 * u, 150 * u, 10 * u); g.stroke();
       dated('30 พ.ค. 2023', 'เข้าเรือนจำหญิงที่ Bryan รัฐเท็กซัส', 110 * u, 420 * u, t, 0.2);
       dated('มี.ค. 2026', 'ศาลลดโทษลงราว 1 ปี ตามกฎใหม่', 110 * u, 700 * u, t, 2.5);
       dated('ราวปี 2027', 'มีรายงานว่าอาจย้ายไปบ้านกึ่งวิถี', 110 * u, 980 * u, t, 3.75);
-      say('ส่วนตัวเธอยังยืนยันว่าตัวเองบริสุทธิ์', TX, 1360 * u, t - 4.0, { size: 44 * u, weight: 800, color: C.red });
-      text(g, 'ข้อมูล ณ ต.ค. 2026 · วันพ้นโทษอาจเปลี่ยนได้', TX, 1470 * u, { size: 30 * u, weight: 700, family: THAI, color: C.inkSoft, alpha: clamp(t - 4.0) });
+      say('ส่วนตัวเธอยังยืนยันว่าตัวเองบริสุทธิ์', TX, 1360 * u, t - 3.0, { size: 44 * u, weight: 800, color: C.red });
+      text(g, 'ข้อมูล ณ ต.ค. 2026 · วันพ้นโทษอาจเปลี่ยนได้', TX, 1470 * u, { size: 30 * u, weight: 700, family: THAI, color: C.inkSoft, alpha: clamp(t - 3.4) });
       finish(0.6);
     } },
   // ---------------- closing
@@ -290,7 +298,7 @@ export default () => [
   { from: bar(68), to: bar(72), cues: [[0, 'whoosh', 0.5], [2.5, 'pop', 0.6], [5.0, 'chime', 0.8]],
     draw(t) {
       night('#0D0F14');
-      for (let i = 0; i < 60; i++) { const c = i % 10, r = Math.floor(i / 10); tube(140 * u + c * 80 * u, 760 * u + r * 100 * u, 70 * u, i % 7 === 0 ? '#D9A441' : BLOOD); }
+      for (let i = 0; i < 50; i++) { const c = i % 10, r = Math.floor(i / 10); tube(140 * u + c * 80 * u, 660 * u + r * 100 * u, 70 * u, i % 7 === 0 ? '#D9A441' : BLOOD); }
       edison(TX, 1480 * u, 360 * u, { prog: 0.5 + 0.5 * Math.sin(t * 2) ** 2, label: '???' });
       g.fillStyle = 'rgba(13,15,20,0.85)'; g.fillRect(0, 220 * u, W, 330 * u);
       say('ถ้าคุณเป็นนักลงทุนในปี 2014', TX, 310 * u, t - 0.3, { size: 50 * u, weight: 800, color: C.cream });

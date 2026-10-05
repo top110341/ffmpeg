@@ -98,7 +98,7 @@ export default () => [
       paper();
       kicker('ปลายปี 2008', TX, 300 * u, t);
       say('ลูกค้าขอถอนเงินรวม\nราว 7,000 ล้านดอลลาร์', TX, 410 * u, t - 0.2, { size: 52 * u, weight: 800 });
-      pyramid(TX, 720 * u, t + 3, { rows: 5, gap: 140 * u, drain: clamp((t - 0.8) / 3) * 0.8 });
+      pyramid(TX, 720 * u, t + 3, { rows: 5, gap: 140 * u, drain: clamp((t - 0.8) / 3) * 0.6 });
       say('ไม่มีเงินใหม่มากพอ\nจะจ่ายคนเก่าอีกต่อไป', TX, 1390 * u, t - 3.6, { size: 50 * u, weight: 800, color: C.red });
       finish(0.6);
     } },
@@ -217,9 +217,9 @@ export default () => [
       const p = spring(t - 0.7, 'default');
       g.fillStyle = C.red; g.fillRect(TX - 330 * u * p, 760 * u, 660 * u * p, 10 * u);
       say('แชร์ลูกโซ่ที่ใหญ่ที่สุดในประวัติศาสตร์', TX, 860 * u, t - 1.0, { size: 48 * u, weight: 800, color: C.red });
-      const v = smooth(40); if (t > 5.0) v.push(v[39], v[39] * 0.0 + 60);
-      lineChart(130 * u, 1060 * u, 760 * u, 420 * u, v.slice(0, t > 5.0 ? 42 : 40), t > 5.0 ? clamp(0.95 + (t - 5.0) * 0.2) : clamp((t - 1.5) / 3.3) * (t > 5 ? 1 : 0.999),
-        { color: t > 5.0 ? C.red : '#4FBF7F', axis: C.fog, lo: 60, hi: Math.max(...smooth(40)), grid: false });
+      const s40 = smooth(40), v = [...s40, s40[39], 60];
+      const pr = t < 5.0 ? clamp((t - 1.5) / 3.3) * (40 / 41) : clamp(40 / 41 + ((t - 5.0) / 0.3) / 41);
+      lineChart(130 * u, 1060 * u, 760 * u, 420 * u, v, pr, { color: t < 5.0 ? '#4FBF7F' : C.red, axis: C.fog, lo: 60, hi: s40[39], grid: false });
       finish();
     } },
   { from: bar(68), to: bar(72), cues: Array.from({ length: 8 }, (_, i) => [i * 0.625, 'thump', 0.35]).concat([[5.0, 'chime', 0.8]]),
