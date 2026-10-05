@@ -195,7 +195,7 @@ const BORDERS = [
   [[43.4, -1.5], [42.7, 0.0], [42.4, 3.1]]];
 export const PL = { paris: [48.86, 2.35], florence: [43.77, 11.25], rome: [41.9, 12.5], milan: [45.46, 9.19] };
 export function mapEU(cam) {
-  const P = map(cam, { lands: [EU, CORSICA, SARDINIA], land: '#2A2A26', water: '#121820', line: '#9A8F78', grid: 2 });
+  const P = map(cam, { lands: [EU, CORSICA, SARDINIA], land: '#3D3A30', water: '#0C1119', line: '#9A8F78', grid: 2 });
   g.save(); g.strokeStyle = '#9A8F78'; g.globalAlpha = 0.5; g.lineWidth = 2.5 * u; g.setLineDash([10 * u, 8 * u]);
   for (const b of BORDERS) { g.beginPath(); b.forEach((p, i) => { const [x, y] = P(p); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); }
   g.restore();
@@ -424,8 +424,8 @@ export default () => [
     draw(t) {
       wall();
       emptyWall(TX + 60 * u, FR.y * u, FR.w * u, FR.h * u);
-      const lift = track(t, [[0, 0], [2.5, 1]], 'default'), carry = clamp((t - 3.2) / 3.5);
-      const fx = TX + 60 * u + carry * 900 * u, fy = FR.y * u - lift * 40 * u + carry * 340 * u;
+      const lift = track(t, [[0, 0], [2.5, 1]], 'default'), carry = clamp((t - 3.2) / 4.2);
+      const fx = TX + 60 * u + carry * 260 * u, fy = FR.y * u - lift * 40 * u + carry * 200 * u;
       worker(fx - 405 * u, 1540 * u, 320 * u, t, { walk: carry > 0 ? 1 : 0, carry: t > 2.2 ? 1 : 0 });
       g.save(); g.translate(fx, fy); g.rotate(carry * 0.12); g.translate(-fx, -fy);
       frame(fx, fy, FR.w * u, FR.h * u, { inner: lisa }); glass(fx, fy, (FR.w + 30) * u, (FR.h + 30) * u);
@@ -447,10 +447,10 @@ export default () => [
       glass(250 * u + off * 120 * u, 1270 * u, 320 * u, 440 * u, 0.9);
       // the bare panel: shown, then tucked away
       const tuck = clamp((t - 5.0) / 0.6);
-      if (tuck < 1) { g.save(); g.globalAlpha = 1 - tuck; g.translate(560 * u - tuck * 40 * u, 1060 * u + tuck * 60 * u); g.rotate(0.05);
+      if (tuck < 1) { g.save(); g.globalAlpha = 1 - tuck; g.translate(830 * u - tuck * 200 * u, 1040 * u + tuck * 60 * u); g.rotate(0.05);
         g.fillStyle = '#6B5232'; g.fillRect(-120 * u, -170 * u, 240 * u, 340 * u); g.beginPath(); g.rect(-110 * u, -160 * u, 220 * u, 320 * u); g.clip(); lisa(220 * u, 320 * u); g.restore(); }
       const climb = clamp((t - 7.5) / 2.5);
-      worker(640 * u + climb * 300 * u, 1335 * u - climb * 230 * u, 320 * u, t, { hidden: tuck, walk: climb > 0 ? 1 : 0 });
+      worker(600 * u + climb * 300 * u, 1335 * u - climb * 230 * u, 320 * u, t, { hidden: tuck, walk: climb > 0 ? 1 : 0 });
       g.fillStyle = 'rgba(12,9,7,0.85)'; g.fillRect(0, 200 * u, W, 340 * u);
       kicker('บันไดบริการ', TX, 280 * u, t, { color: C.red });
       say('เขาแกะกรอบและกล่องกระจกทิ้งไว้', TX, 390 * u, t - 0.3, { size: 48 * u, weight: 800, color: C.cream });

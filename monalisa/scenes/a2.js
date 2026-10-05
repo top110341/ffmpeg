@@ -60,7 +60,7 @@ export default () => [
   { from: bar(30), to: bar(33), cues: Array.from({ length: 8 }, (_, i) => [0.2 + i * 0.3, 'pop', 0.25]).concat([[3.75, 'thump', 0.6]]),
     draw(t) {
       wall();
-      emptyWall(TX, 900 * u, FR.w * u, FR.h * u);
+      emptyWall(TX, 980 * u, FR.w * u, FR.h * u);
       const n = Math.min(27, Math.floor(remap(t, 0.2, 3.0) * 27) + 1);
       crowdBack(n, 1440 * u, t, { rows: 3 });
       band(200, 420);
@@ -91,7 +91,7 @@ export default () => [
       text(g, 'Apollinaire', TX - 200 * u, 1230 * u, { size: 40 * u, weight: 400, family: SERIF, color: C.inkSoft });
       text(g, 'Picasso', TX + 200 * u, 1230 * u, { size: 40 * u, weight: 400, family: SERIF, color: C.ink });
       say('Pablo Picasso ผู้เคยซื้อรูปปั้นจาก Pieret\nก็ถูกเรียกไปสอบปากคำ', TX, 330 * u, t - 0.2, { size: 44 * u, weight: 800 });
-      stamp('CLEARED', TX, 880 * u, t - 2.5, { size: 120 * u, rot: -0.1 });
+      stamp('CLEARED', TX, 650 * u, t - 2.5, { size: 120 * u, rot: -0.1 });
       say('ทั้งคู่พ้นข้อสงสัย ไม่เกี่ยวกับคดีนี้', TX, 1360 * u, t - 2.8, { size: 46 * u, weight: 800, color: C.red });
       say('Apollinaire ถูกขังเกือบ 1 สัปดาห์', TX, 1450 * u, t - 3.4, { size: 40 * u, weight: 800, color: C.inkSoft });
       finish(0.6);
@@ -117,8 +117,8 @@ export default () => [
       const rv = clamp((t - 2.5) / 0.8);
       trunk(TX, 1000 * u, 660 * u, { reveal: rv });
       if (t > 3.2) { const p = spring(t - 3.2, 'snappy'); g.save(); g.globalAlpha = clamp(p);
-        g.strokeStyle = C.red; g.lineWidth = 5 * u; g.beginPath(); g.moveTo(TX + 360 * u, 1140 * u); g.lineTo(TX + 250 * u, 1100 * u); g.stroke();
-        text(g, 'ช่องลับ', TX + 370 * u, 1200 * u, { size: 40 * u, weight: 800, family: THAI, color: C.red }); g.restore(); }
+        g.strokeStyle = C.red; g.lineWidth = 5 * u; g.beginPath(); g.moveTo(TX - 380 * u, 1150 * u); g.lineTo(TX - 260 * u, 1110 * u); g.stroke();
+        text(g, 'ช่องลับ', TX - 380 * u, 1210 * u, { size: 40 * u, weight: 800, family: THAI, color: C.red }); g.restore(); }
       band(200, 330, 'rgba(18,12,8,0.88)');
       kicker('ห้องเช่าของเขาในปารีส', TX, 290 * u, t, { color: C.red });
       say('หลายแหล่งระบุว่าภาพถูกซ่อน\nในหีบไม้ที่มีพื้นลับ', TX, 400 * u, t - 0.3, { size: 46 * u, weight: 800, color: C.cream });
