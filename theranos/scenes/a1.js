@@ -36,7 +36,9 @@ export function edison(x, y, w, o = {}) {
   // door bay
   const dx = -w * 0.42, dy = -h * 0.72, dw = w * 0.42, dh = h * 0.48;
   g.fillStyle = '#050506'; g.fillRect(dx, dy, dw, dh);
-  if (cart > 0) { g.fillStyle = '#E9ECEE'; const cw = dw * 0.6; g.fillRect(dx + (dw - cw) / 2, dy + dh * 0.55 - (1 - cart) * -dh * 0.6, cw, dh * 0.28); drop(dx + dw / 2, dy + dh * 0.66 + (1 - cart) * dh * 0.6, dh * 0.2); }
+  if (cart > 0) { g.save(); g.beginPath(); g.rect(dx, dy, dw, dh); g.clip();
+    const cw = dw * 0.6, cy = dy + dh * 0.4 + (1 - clamp(cart)) * dh * 0.7;
+    g.fillStyle = '#E9ECEE'; rrect(g, dx + (dw - cw) / 2, cy, cw, dh * 0.4, 8 * u); g.fill(); drop(dx + dw / 2, cy + dh * 0.22, dh * 0.22, { shine: 0 }); g.restore(); }
   g.save(); g.beginPath(); g.rect(dx, dy - dh, dw, dh * 2); g.clip();
   g.fillStyle = '#1E2026'; g.fillRect(dx, dy - dh * clamp(door), dw, dh);
   g.strokeStyle = '#33363D'; g.lineWidth = 2 * u; g.strokeRect(dx, dy - dh * clamp(door), dw, dh);
