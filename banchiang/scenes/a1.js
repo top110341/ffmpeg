@@ -314,12 +314,12 @@ export default () => [
   { from: bar(2), to: bar(4), cues: [[0, 'thump', 0.6], [0.6, 'swish', 0.4], [2.5, 'chime', 0.5]],
     draw(t) {
       paper();
-      const gy = 1000 * u;
+      const gy = 1060 * u;
       const rise = track(t, [[0, 80 * u], [0.05, 0]], 'heavy');
       // soil block with a pot buried, rim and shoulder poking out
-      pot(TX + 20 * u, gy + 150 * u + rise, 230 * u, { rot: 0.12 });
+      pot(TX + 20 * u, gy + 170 * u + rise, 310 * u, { rot: 0.12 });
       g.fillStyle = '#9C6B43'; g.beginPath(); g.moveTo(0, gy); for (let k = 0; k <= 20; k++) g.lineTo(k / 20 * W, gy + Math.sin(k * 1.9) * 12 * u + (k > 6 && k < 14 ? 30 * u * Math.sin((k - 6) / 8 * Math.PI) : 0)); g.lineTo(W, H); g.lineTo(0, H); g.fill();
-      g.save(); g.beginPath(); g.rect(0, 0, W, gy + 12 * u); g.clip(); pot(TX + 20 * u, gy + 150 * u + rise, 230 * u, { rot: 0.12 }); g.restore();
+      g.save(); g.beginPath(); g.rect(0, 0, W, gy + 12 * u); g.clip(); pot(TX + 20 * u, gy + 170 * u + rise, 310 * u, { rot: 0.12 }); g.restore();
       g.fillStyle = '#7E5233'; for (let i = 0; i < 50; i++) { g.beginPath(); g.arc(hash(i, 3) * W, gy + 60 * u + hash(i, 4) * 520 * u, (4 + hash(i, 5) * 10) * u, 0, 7); g.fill(); }
       // dust brushed away
       for (let i = 0; i < 10; i++) { const q = clamp((t - 0.6 - i * 0.05) / 1.2); if (q <= 0 || q >= 1) continue;
@@ -355,6 +355,8 @@ export default () => [
       if (t < 3.2) pin(...P(PL.bangkok), t - 1.0, { label: 'กรุงเทพฯ', labelColor: C.ink, side: 1, color: C.inkSoft });
       pin(...P(PL.udon), t - 2.0, { label: 'อุดรธานี', labelColor: C.ink, side: -1, color: C.inkSoft });
       pin(...P(PL.banchiang), t - 4.6, { label: 'บ้านเชียง', labelColor: C.red, side: 1 });
+      if (t > 3.5) { const [lx, ly] = P([18.25, 103.0]); text(g, 'สปป.ลาว', lx, ly, { size: 40 * u, weight: 800, family: THAI, color: C.inkSoft, alpha: clamp((t - 3.5) / 0.5) });
+        const [mx, my] = P([18.02, 102.35]); text(g, 'แม่น้ำโขง', mx, my, { size: 30 * u, weight: 800, family: THAI, color: '#5F7F8E', alpha: clamp((t - 3.8) / 0.5) }); }
       kicker('ภาคอีสาน ประเทศไทย', TX, 280 * u, t);
       say('อำเภอหนองหาน จังหวัดอุดรธานี', TX, 390 * u, t - 0.3, { size: 50 * u, weight: 800 });
       if (t > 4.6) { band(1360 * u, 180 * u); say('ห่างกรุงเทพฯ หลายร้อยกิโลเมตร', TX, 1460 * u, t - 5.0, { size: 44 * u, weight: 800, color: C.inkSoft }); }

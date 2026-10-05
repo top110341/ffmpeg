@@ -25,9 +25,9 @@ function axis(Y, a) {
   text(g, 'ปีก่อนคริสตกาล', AX(-2500), Y + 110 * u, { size: 30 * u, weight: 800, family: THAI, color: C.inkSoft, alpha: clamp(a * 2 - 1) });
 }
 function marker(y, Y, lab, t, o = {}) {
-  const { color = C.red, up = 1, crossed = 0 } = o;
+  const { color = C.red, up = 1, crossed = 0, hh = 150 } = o;
   const p = clamp(spring(t, 'snappy')); if (p <= 0) return;
-  const x = AX(y), h = 150 * u * p * up;
+  const x = AX(y), h = hh * u * p * up;
   g.strokeStyle = color; g.lineWidth = 5 * u; g.beginPath(); g.moveTo(x, Y); g.lineTo(x, Y - h); g.stroke();
   g.fillStyle = color; g.beginPath(); g.arc(x, Y, 13 * u * p, 0, 7); g.fill();
   text(g, lab, x, Y - h - 18 * u * up, { size: 34 * u, weight: 800, family: THAI, color, alpha: p });
@@ -105,7 +105,7 @@ export default () => [
         g.save(); g.globalAlpha = a;
         g.strokeStyle = C.ink; g.lineWidth = 3 * u; g.beginPath(); g.moveTo(x + w + 6 * u, ys[i]); g.lineTo(x + w + 34 * u, ys[i]); g.stroke();
         text(g, L.name, x + w + 44 * u, ys[i] + 10 * u, { size: 38 * u, weight: 800, family: THAI, color: i === 1 ? C.red : C.ink, align: 'left' });
-        if (L.sub) text(g, L.sub, x + w + 44 * u, ys[i] + 52 * u, { size: 24 * u, weight: 800, family: THAI, color: C.inkSoft, align: 'left' });
+        if (L.sub) text(g, L.sub, x + w + 44 * u, ys[i] + 52 * u, { size: 26 * u, weight: 800, family: THAI, color: C.inkSoft, align: 'left' });
         g.restore(); });
       kicker('ชั้นดิน = เส้นเวลา', TX, 300 * u, t);
       say('ยิ่งขุดลึก ยิ่งย้อนเวลา', TX, 410 * u, t - 0.2, { size: 58 * u, weight: 800 });
@@ -123,7 +123,7 @@ export default () => [
         const p = clamp(spring(t - 1.0 - i * 0.6, 'snappy')); if (p <= 0) return;
         g.save(); g.translate(x * u, 900 * u + (1 - p) * 80 * u); g.globalAlpha = p;
         g.fillStyle = C.paper2; rrect(g, -190 * u, -110 * u, 380 * u, 420 * u, 16 * u); g.fill();
-        person(0, 110 * u, 110 * u, i ? C.inkSoft : C.ink);
+        person(0, 60 * u, 100 * u, i ? C.inkSoft : C.ink);
         text(g, n, 0, 190 * u, { size: i ? 36 * u : 34 * u, weight: i ? 800 : 700, family: i ? THAI : 'Inter, sans-serif', color: C.ink });
         text(g, org, 0, 245 * u, { size: i ? 28 * u : 22 * u, weight: i ? 800 : 700, family: i ? THAI : 'Inter, sans-serif', color: C.inkSoft });
         g.restore(); });
@@ -229,8 +229,8 @@ export default () => [
       const Y = 900 * u;
       axis(Y, 1);
       marker(-3600, Y, 'ราว 3,600', 1, { color: C.inkSoft, crossed: remap(t, 0.3, 0.8) });
-      marker(-2000, Y, 'ราว 2,000', t - 1.4, { up: -1 });
-      marker(-1000, Y, 'ราว 1,000', t - 2.6);
+      marker(-2000, Y, 'ราว 2,000', t - 1.4);
+      marker(-1000, Y, 'ราว 1,000', t - 2.6, { hh: 250 });
       kicker('ผลวัดอายุชุดใหม่ ๆ', TX, 300 * u, t);
       say('คาร์บอน-14 ให้ตัวเลขที่ใหม่กว่ามาก', TX, 410 * u, t - 0.2, { size: 46 * u, weight: 800 });
       g.fillStyle = 'rgba(178,67,42,0.12)'; g.fillRect(AX(-2000), Y - 12 * u, AX(-1000) - AX(-2000), 24 * u * clamp(t - 2.6));
@@ -266,7 +266,7 @@ export default () => [
       // lantern glow
       const lg = g.createRadialGradient(560 * u, gy - 40 * u, 10 * u, 560 * u, gy - 40 * u, 260 * u); lg.addColorStop(0, 'rgba(240,180,90,0.5)'); lg.addColorStop(1, 'rgba(240,180,90,0)');
       g.fillStyle = lg; g.fillRect(0, 0, W, H); g.fillStyle = '#F0B45A'; g.beginPath(); g.arc(560 * u, gy - 20 * u, 12 * u, 0, 7); g.fill();
-      for (let i = 0; i < 4; i++) { const p = clamp(spring(t - 2.5 - i * 0.3, 'snappy')); if (p <= 0) continue; crate(330 * u + i * 140 * u, gy + 260 * u, 110 * u, 80 * u * p); }
+      for (let i = 0; i < 4; i++) { const p = clamp(spring(t - 2.5 - i * 0.3, 'snappy')); if (p <= 0) continue; crate(330 * u + i * 140 * u, gy + 150 * u, 110 * u, 80 * u * p); }
       band(190 * u, 380 * u, 1);
       kicker('ด้านมืด · ต้นทศวรรษ 1970', TX, 280 * u, t);
       say('ไหบ้านเชียงกลายเป็นของสะสมราคาแพง', TX, 390 * u, t - 0.2, { size: 44 * u, weight: 800, color: C.cream });
@@ -284,8 +284,8 @@ export default () => [
       // crates flying home along an arc
       const A = [170 * u, 1000 * u], B = [790 * u, 1000 * u];
       g.strokeStyle = C.paper3; g.lineWidth = 5 * u; g.setLineDash([16 * u, 12 * u]); g.beginPath(); g.moveTo(...A); g.quadraticCurveTo(TX, 640 * u, ...B); g.stroke(); g.setLineDash([]);
-      text(g, 'USA', A[0], A[1] + 70 * u, { size: 36 * u, weight: 700, family: 'Inter, sans-serif', color: C.inkSoft });
-      text(g, 'ไทย', B[0], B[1] + 70 * u, { size: 40 * u, weight: 800, family: THAI, color: C.red });
+      text(g, 'USA', A[0], A[1] + 110 * u, { size: 36 * u, weight: 700, family: 'Inter, sans-serif', color: C.inkSoft });
+      text(g, 'ไทย', B[0], B[1] + 110 * u, { size: 40 * u, weight: 800, family: THAI, color: C.red });
       for (let i = 0; i < 5; i++) { const q = clamp((t - 1.5 - i * 0.25) / 1.6); if (q <= 0) continue; const e = q * q * (3 - 2 * q);
         const x = (1 - e) * (1 - e) * A[0] + 2 * (1 - e) * e * TX + e * e * B[0], y = (1 - e) * (1 - e) * A[1] + 2 * (1 - e) * e * 640 * u + e * e * B[1];
         crate(x, y + 30 * u, 90 * u, 70 * u, '', { rot: (e - 0.5) * 0.5 }); }
@@ -305,7 +305,6 @@ export default () => [
       [[260, 'late', 0.95], [450, 'mid', 0.8], [640, 'late', 1.05], [800, 'early', 0.75]].forEach(([px, st, k], i) => {
         const p = clamp(spring(t - 1.0 - i * 0.4, 'snappy')); if (p <= 0) return;
         g.save(); g.translate(px * u, y + h - 30 * u - 1.12 * 120 * u * k); g.scale(p, p); pot(0, 0, 120 * u * k, { style: st, paint: 1 }); g.restore(); });
-      bangle(450 * u, y + 110 * u, 50 * u, t, { phase: 0.4 });
       vitrineGlass(x, y, w, h);
       kicker('วันนี้', TX, 300 * u, t);
       say('พิพิธภัณฑสถานแห่งชาติ บ้านเชียง', TX, 410 * u, t - 0.2, { size: 52 * u, weight: 800 });
