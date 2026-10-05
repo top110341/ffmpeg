@@ -410,7 +410,7 @@ export default () => [
       say('ปล้นรถไฟครั้งใหญ่', TX, 990 * u, t - 1.0, { size: 64 * u, weight: 800, color: C.red });
       say('เงินกว่า 2 ล้านปอนด์\nไม่เคยถูกพบจนถึงวันนี้', TX, 1120 * u, t - 2.5, { size: 46 * u, weight: 800, color: C.cream });
       g.fillStyle = '#0F141C'; g.fillRect(0, 1460 * u, W, H - 1460 * u);
-      train(W + 100 * u - t * 160 * u, 1460 * u, 130 * u, 6, { dark: '#1E2B44', lamp: 0.6 });
+      train(W + 100 * u - t * 160 * u, 1460 * u, 130 * u, 6, { dark: '#2C3D5C', lamp: 0.6 });
       finish();
     } },
   // ---------------- the question
