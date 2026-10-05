@@ -198,7 +198,7 @@ export function lobby(t, o = {}) {
     for (let c = -8; c < 8; c++) { if ((r + c) % 2 === 0) continue;
       const k0 = 0.4 + (r / rows) * 2.2, k1 = 0.4 + ((r + 1) / rows) * 2.2, cw = 140 * u;
       g.fillStyle = '#2B2622'; g.beginPath(); g.moveTo(vx + c * cw * k0, y0); g.lineTo(vx + (c + 1) * cw * k0, y0); g.lineTo(vx + (c + 1) * cw * k1, y1); g.lineTo(vx + c * cw * k1, y1); g.closePath(); g.fill(); } }
-  if (lamp) chandelier(TX, -40 * u, 330 * u, t);
+  if (lamp) { g.strokeStyle = GOLD; g.lineWidth = 4 * u; g.beginPath(); g.moveTo(TX, 0); g.lineTo(TX, 500 * u); g.stroke(); chandelier(TX, 490 * u, 280 * u, t); }
 }
 
 // Fedora + suit silhouette (generic, never a likeness).
@@ -430,7 +430,7 @@ export default () => [
     draw(t) {
       lobby(t, { floor: 1180 * u });
       // long table with dealers
-      for (let i = 0; i < 6; i++) { const s = spring(t - 1.2 - i * 0.25, 'snappy'); if (s <= 0) continue; person(170 * u + i * 150 * u, 1160 * u, 64 * u * s, '#120A0A'); }
+      for (let i = 0; i < 6; i++) { const s = spring(t - 1.2 - i * 0.25, 'snappy'); if (s <= 0) continue; person(170 * u + i * 150 * u, 1160 * u, 64 * u * s, '#0C0607'); }
       gent(TX, 1280 * u, 170 * u, '#0A0606', { cane: false, shirt: '#E8DFC6' });
       g.fillStyle = '#4A2A1E'; g.fillRect(90 * u, 1150 * u, W - 180 * u, 34 * u); g.fillStyle = '#2E1A12'; g.fillRect(110 * u, 1184 * u, W - 220 * u, 90 * u);
       g.fillStyle = 'rgba(24,10,12,0.86)'; g.fillRect(0, 190 * u, W, 300 * u);
@@ -456,7 +456,7 @@ export default () => [
       person(260 * u, 1080 * u, 110 * u, C.red); gent(800 * u, 1250 * u, 190 * u, C.ink, { cane: false });
       g.fillStyle = '#6B4E36'; g.fillRect(120 * u, 1090 * u, W - 240 * u, 26 * u);
       // an envelope slides under the table
-      const ex = track(t, [[0, 260 * u], [1.5, 760 * u]], 'default');
+      const ex = track(t, [[0, 300 * u], [1.5, 620 * u]], 'default');
       if (t > 1.3) envelope(ex, 1170 * u, 150 * u, 0, 0);
       say('Poisson เริ่มสงสัย…', TX, 360 * u, t - 0.1, { size: 56 * u, weight: 800 });
       say('Lustig เลยแอบ “ขอสินบน”', TX, 480 * u, t - 1.3, { size: 56 * u, weight: 800, color: C.red });
