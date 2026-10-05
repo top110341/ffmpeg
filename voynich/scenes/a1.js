@@ -14,10 +14,10 @@ export function glyph(k, x, y, s, color = V.ink, lw = 0.12) {
   g.strokeStyle = color; g.lineWidth = lw; g.lineCap = 'round'; g.lineJoin = 'round';
   g.beginPath();
   switch (k) {
-    case 0: g.arc(0.3, -0.42, 0.26, 0, 7); break;
-    case 1: g.arc(0.3, -0.42, 0.25, 0, 7); g.moveTo(0.56, -0.68); g.lineTo(0.58, -0.08); g.quadraticCurveTo(0.6, 0, 0.72, -0.04); break;
-    case 2: g.arc(0.3, -0.55, 0.23, 0, 7); g.moveTo(0.53, -0.55); g.quadraticCurveTo(0.56, 0.1, 0.12, 0.42); break;
-    case 3: g.arc(0.28, -0.42, 0.25, 0.7, 5.6); break;
+    case 0: g.arc(0.3, -0.42, 0.26, 0, 7); g.moveTo(0.5, -0.6); g.quadraticCurveTo(0.72, -0.9, 0.56, -1.02); break;
+    case 1: g.arc(0.3, -0.42, 0.25, 0, 7); g.moveTo(0.08, -0.86); g.quadraticCurveTo(0.35, -1.0, 0.56, -0.68); g.lineTo(0.58, -0.08); g.quadraticCurveTo(0.6, 0, 0.72, -0.04); break;
+    case 2: g.arc(0.3, -0.55, 0.23, 0, 7); g.moveTo(0.53, -0.55); g.quadraticCurveTo(0.56, 0.1, 0.12, 0.42); g.quadraticCurveTo(-0.06, 0.5, 0.08, 0.24); break;
+    case 3: g.arc(0.28, -0.42, 0.25, 0.7, 5.6); g.moveTo(0.08, -0.74); g.quadraticCurveTo(0.3, -1.2, 0.52, -0.82); break;
     case 4: g.moveTo(0.12, -0.75); g.lineTo(0.12, -0.08); g.quadraticCurveTo(0.14, 0, 0.26, -0.06); break;
     case 5: g.moveTo(0.1, -0.75); g.lineTo(0.1, 0); g.moveTo(0.1, -0.35); g.quadraticCurveTo(0.42, -0.95, 0.44, -0.3); g.quadraticCurveTo(0.46, 0.04, 0.58, -0.06); break;
     case 6: g.moveTo(0.12, 0); g.lineTo(0.12, -0.95); g.bezierCurveTo(0.12, -1.75, 0.6, -1.75, 0.6, -0.95); g.lineTo(0.6, 0);
@@ -25,9 +25,9 @@ export function glyph(k, x, y, s, color = V.ink, lw = 0.12) {
     case 7: g.moveTo(0.1, 0); g.lineTo(0.1, -1.5); g.moveTo(0.1, -0.95); g.bezierCurveTo(0.55, -1.9, 1.05, -1.3, 0.38, -0.78); g.moveTo(0.52, 0); g.lineTo(0.52, -1.0); break;
     case 8: g.arc(0.3, -0.38, 0.24, 0, 7); g.moveTo(0.54, -0.42); g.bezierCurveTo(0.6, -1.2, 0.2, -1.35, 0.04, -1.0); break;
     case 9: g.arc(0.3, -0.42, 0.24, 0, 7); g.moveTo(0.54, -0.42); g.bezierCurveTo(0.6, 0.3, 0.22, 0.42, 0.0, 0.24); break;
-    case 10: g.moveTo(0.1, 0); g.lineTo(0.15, -0.62); g.quadraticCurveTo(0.3, -0.92, 0.46, -0.66); break;
+    case 10: g.moveTo(0.22, 0.16); g.quadraticCurveTo(-0.04, 0.22, 0.1, 0); g.lineTo(0.15, -0.62); g.quadraticCurveTo(0.3, -0.92, 0.46, -0.66); break;
     case 11: g.arc(0.24, -0.4, 0.22, 0.7, 5.6); g.moveTo(0.82, -0.25); g.arc(0.64, -0.4, 0.22, 0.7, 5.6); g.moveTo(0.04, -0.82); g.lineTo(0.86, -0.82); break;
-    case 12: g.moveTo(0.5, 0.12); g.lineTo(0.5, -0.95); g.lineTo(0.06, -0.32); g.lineTo(0.72, -0.32); break;
+    case 12: g.moveTo(0.5, 0.12); g.lineTo(0.5, -0.8); g.quadraticCurveTo(0.5, -1.08, 0.28, -0.95); g.lineTo(0.06, -0.32); g.lineTo(0.7, -0.32); g.quadraticCurveTo(0.86, -0.32, 0.8, -0.48); break;
     default: g.moveTo(0.46, -0.78); g.quadraticCurveTo(0.0, -0.66, 0.28, -0.4); g.quadraticCurveTo(0.58, -0.12, 0.06, 0);
   }
   g.stroke(); g.restore();
@@ -272,9 +272,9 @@ export default () => [
       const z = track(t, [[0, 1.08], [0.01, 1]], 'heavy');
       g.save(); g.translate(W / 2, 860 * u); g.scale(z, z); g.translate(-W / 2, -860 * u);
       vellum(40 * u, 120 * u, W - 80 * u, 1460 * u, { seed: 11 });
-      vtext(110 * u, 230 * u, W - 220 * u, 4, 30 * u, 3, remap(t, 0, 3.2));
-      plant(TX + 20 * u, 1020 * u, 300 * u, { seed: 4, grow: remap(t, 0.2, 2.6) });
-      vtext(110 * u, 1300 * u, W - 220 * u, 2, 30 * u, 8, remap(t, 1.4, 4.6));
+      vtext(110 * u, 230 * u, W - 220 * u, 4, 30 * u, 3, remap(t, -1.2, 2.2));
+      plant(TX + 20 * u, 1020 * u, 300 * u, { seed: 4, grow: remap(t, -0.2, 1.4) });
+      vtext(110 * u, 1250 * u, W - 220 * u, 1, 30 * u, 8, remap(t, 1.4, 4.6));
       g.restore();
       g.fillStyle = 'rgba(30,20,10,0.86)'; g.fillRect(0, 1360 * u, W, 230 * u);
       say('หนังสือที่ไม่มีใครในโลก\nอ่านออก', TX, 1440 * u, t - 0.05, { size: 54 * u, weight: 800, color: C.cream });
