@@ -10,7 +10,15 @@ mkdir -p out/deliver
 ffmpeg -hide_banner -loglevel error -y -i audio/music.wav -i out/sfx.wav -filter_complex \
   "[0:a]aresample=48000,volume=-3dB[m];[1:a]aresample=48000,aformat=channel_layouts=stereo[s];[m][s]amix=inputs=2:normalize=0:duration=longest,loudnorm=I=-14:TP=-2:LRA=11,aresample=48000,atrim=0:180,afade=t=out:st=179.7:d=0.3,volume=-1.5dB[a]" \
   -map "[a]" -c:a pcm_f32le out/mix.wav
-ffmpeg -hide_banner -loglevel error -y -i out/silent.mp4 -i out/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 256k -t 180 -movflags +faststart "out/deliver/${name}.mp4"
+# AAC can push true peak well above the WAV's; trim gain until the encoded file measures ≤ -1.2 dBTP.
+gain=0
+for try in 1 2 3 4 5; do
+  ffmpeg -hide_banner -loglevel error -y -i out/silent.mp4 -i out/mix.wav -map 0:v -map 1:a -c:v copy -af "volume=${gain}dB" -c:a aac -b:a 256k -t 180 -movflags +faststart "out/deliver/${name}.mp4"
+  tp=$(ffmpeg -hide_banner -nostats -i "out/deliver/${name}.mp4" -af ebur128=peak=true -f null - 2>&1 | grep "Peak:" | tail -1 | awk '{print $2}')
+  ok=$(awk -v p="$tp" 'BEGIN{print (p <= -1.2) ? 1 : 0}')
+  [ "$ok" = 1 ] && break
+  gain=$(awk -v g="$gain" -v p="$tp" 'BEGIN{printf "%.2f", g - (p + 1.6)}')
+done
 # phone copy under the 30 MiB chat upload limit (two-pass, 1080x1920 kept)
 ffmpeg -hide_banner -loglevel error -y -i "out/deliver/${name}.mp4" -c:v libx264 -preset slow -b:v 1100k -maxrate 1800k -bufsize 3600k -pass 1 -passlogfile out/x264 -an -f null /dev/null
 ffmpeg -hide_banner -loglevel error -y -i "out/deliver/${name}.mp4" -c:v libx264 -preset slow -b:v 1100k -maxrate 1800k -bufsize 3600k -pass 2 -passlogfile out/x264 -pix_fmt yuv420p -c:a copy -movflags +faststart "out/deliver/${name}_small.mp4"
