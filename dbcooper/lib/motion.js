@@ -144,7 +144,7 @@ export function typeIn(g, str, x, y, t, o = {}) {
     const px = cx + g.measureText(prefix).width; // measure prefix so kerning/shaping stays right
     prefix += p;
     const sIn = spring(t - i * stagger, preset), sOut = spring(t - out - i * stagger * 0.5, 'snappy');
-    const dy = (1 - sIn) * size * 1.2 - sOut * size * 1.2;
+    const dy = (1 - sIn) * size * 2.0 - sOut * size * 2.0; // 2.0: Thai marks above the line stay hidden below the mask
     g.fillText(p, px, y + dy);
   });
   g.restore();

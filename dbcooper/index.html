@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>film</title>
+<title>D. B. Cooper</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
   html, body { margin: 0; height: 100%; background: #111; overflow: hidden }
@@ -12,75 +13,49 @@
 <body>
 <canvas id="c"></canvas>
 <script type="module">
-// Render contract: everything on screen is a pure function of t. See CLAUDE.md.
-import { spring, track, clamp, remap, rng, hash, layout, text, typeIn, rrect, swapAlpha } from './lib/motion.js';
+// Render contract: everything on screen is a pure function of t. See CLAUDE.md and docs/ANIMATION_GUIDE.md.
+import { layout } from './lib/motion.js';
+import * as K from './scenes/kit.js';
 
 const q = new URLSearchParams(location.search);
 const W = +q.get('w') || 1080, H = +q.get('h') || 1920;
 const c = document.getElementById('c'); c.width = W; c.height = H;
 const g = c.getContext('2d');
-const L = layout(W, H), u = L.u;
 
-// ---------------------------------------------------------------- palette & type
-const C = { bg: '#141413', ink: '#F0EEE6', dim: '#8A877D', accent: '#D97757' };
-const SANS = 'Inter, "Noto Sans Thai", system-ui, sans-serif';
-const SERIF = '"Instrument Serif", "Noto Sans Thai", serif';
+// Fonts must be loaded before kit builds anything that measures text.
+await Promise.race([document.fonts.ready, new Promise((r) => requestAnimationFrame(() => r()))]);
+await Promise.all([`400 100px "Instrument Serif"`, `italic 400 100px "Instrument Serif"`, `400 100px "Noto Sans Thai"`,
+  `600 100px "Noto Sans Thai"`, `800 100px "Noto Sans Thai"`, `700 100px Inter`].map((f) => document.fonts.load(f, 'กขA0').catch(() => {})));
 
-// ---------------------------------------------------------------- time grid
-// beats.json comes from music.mjs (synth) or beats.py (supplied track).
+K.init(g, layout(W, H));
+
 const grid = await fetch('beats.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
-const BPM = grid?.bpm || 120, BEAT = 60 / BPM;
-const b = (n) => grid?.beats?.[n] ?? n * BEAT;          // time of beat n
-const BARS = 4;
-const DUR = grid?.dur ?? BARS * 4 * BEAT;
+const BEAT = 60 / (grid?.bpm || 96);
+const DUR = 180;
 
-// ---------------------------------------------------------------- scenes
-// One object per shot: { from, to, cues, draw(t, d) } with t local time and d the shot length.
-// Shots may overlap for transitions. cues: [[localTime, type, gain?]] — synthesized by sfx.mjs.
-
-const SCENES = [
-  { from: 0, to: b(4), cues: [[0, 'thump'], [0.45, 'swish', 0.6]], draw(t) {   // hook: kinetic title
-      typeIn(g, 'MAKE IT', L.cx, L.cy - 40 * u, t, { size: 170 * u, family: SANS, weight: 900, color: C.ink, tracking: -4 * u });
-      typeIn(g, 'MOVE.', L.cx, L.cy + 150 * u, t - 0.18, { size: 170 * u, family: SERIF, weight: 400, color: C.accent });
-      const s = spring(t - 0.45, 'default');
-      g.fillStyle = C.accent; g.fillRect(L.cx - 300 * u * s, L.cy + 210 * u, 600 * u * s, 10 * u);
-  }},
-  { from: b(4), to: DUR, cues: [0, 1, 2, 3].map((i) => [i * BEAT, 'click', 0.8]), draw(t, d) {  // one shape, morphing on the beat
-      const k = [0, 1, 2, 3].map((i) => i * BEAT);
-      const w = track(t, [[0, 420], [k[1], 180], [k[2], 760], [k[3], 180]], 'snappy') * u;
-      const h = track(t, [[0, 140], [k[1], 180], [k[2], 460], [k[3], 180]], 'snappy') * u;
-      const r = track(t, [[0, 70], [k[1], 90], [k[2], 40], [k[3], 90]], 'snappy') * u;
-      const s = spring(t, 'snappy') * (1 - spring(t - (d - 0.35), 'snappy'));
-      g.save(); g.translate(L.cx, L.cy); g.scale(s, s);
-      rrect(g, -w / 2, -h / 2, w, h, r); g.fillStyle = C.accent; g.fill();
-      text(g, 'Get started', 0, 18 * u, { size: 52 * u, family: SANS, color: C.bg, alpha: swapAlpha(t, 0, k[1]) });
-      text(g, 'Opus 5.5', 0, 30 * u, { size: 96 * u, family: SERIF, weight: 400, color: C.bg, alpha: swapAlpha(t, k[2], k[3]) });
-      g.restore();
-  }},
-];
+const CH = ['ch01', 'ch02', 'ch03', 'ch04', 'ch05', 'ch06', 'ch07', 'ch08', 'ch09'];
+const SCENES = (await Promise.all(CH.map((n) => import(`./scenes/${n}.js`)))).flatMap((m) => m.default());
 
 function draw(t) {
   g.setTransform(1, 0, 0, 1, 0, 0);
-  g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+  g.fillStyle = K.C.night; g.fillRect(0, 0, W, H);
   for (const s of SCENES) if (t >= s.from && t < s.to) { g.save(); s.draw(t - s.from, s.to - s.from); g.restore(); }
 }
 
 window.CUES = SCENES.flatMap((s) => (s.cues || []).map(([t, type, gain = 1]) => ({ t: +(s.from + t).toFixed(4), type, gain })))
-  .sort((a, b) => a.t - b.t);
+  .filter((c) => c.t >= 0 && c.t < DUR).sort((a, b) => a.t - b.t);
 window.DUR = DUR;
-window.BEATS = Array.from({ length: Math.round(DUR / BEAT) }, (_, i) => b(i));
+window.BEATS = grid?.beats?.filter((b) => b < DUR) || Array.from({ length: Math.round(DUR / BEAT) }, (_, i) => i * BEAT);
+window.SHOTS = SCENES.map((s) => +s.from.toFixed(3));
 window.LOOP = false;
 window.seek = (t) => { draw(t); return true; };
 
-await Promise.race([document.fonts.ready, new Promise((r) => requestAnimationFrame(() => r()))]);
-await Promise.all([`900 100px Inter`, `400 100px "Instrument Serif"`, `800 100px "Noto Sans Thai"`].map((f) => document.fonts.load(f).catch(() => {})));
 draw(0);
 window.__ready = true;
 
-// Live preview in a normal browser; off during headless render.
 if (!q.has('render')) {
-  const t0 = performance.now();
-  (function loop() { draw(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); })();
+  const start = +q.get('t') || 0, t0 = performance.now();
+  (function loop() { draw((start + (performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); })();
 }
 </script>
 </body>
