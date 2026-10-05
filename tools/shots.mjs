@@ -1,0 +1,10 @@
+import { chromium } from '/home/user/ffmpeg/dbcooper/node_modules/playwright/index.mjs';
+import { startServer } from '/home/user/ffmpeg/dbcooper/lib/server.mjs';
+const { server, url } = await startServer(process.cwd());
+const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const p = await b.newPage();
+await p.goto(url + '/index.html?w=540&h=960&render=1'); await p.waitForFunction(() => window.__ready);
+const s = await p.evaluate(() => window.SHOTS); s.push(180);
+const f = +(process.argv[2] || 0.8);
+console.log(s.slice(0, -1).map((a, i) => +(a + (s[i + 1] - a) * f).toFixed(2)).join(','));
+await b.close(); server.close();
