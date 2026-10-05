@@ -9,7 +9,7 @@ Build a new one the same way. **Read `dancing1518/scenes/a1.js`, `dancing1518/sc
    Hedge anything disputed ("ราว", "บางแหล่งระบุว่า", "ตามคำบอกเล่า"). No invented quotes, case numbers,
    phone numbers, exact times or names you could not verify. Mention legends only *as* legends.
    Sensitive subjects (real victims): no gore, no victim images, respectful wording.
-2. Scaffold: `tools/newfilm.sh <slug> "<Title>" <key> <seed> "<9 moods>"` (moods from: dark tense chill bright;
+2. Scaffold (if your prompt says MUSIC=thai, prefix the command with `MUSIC=thai `): `tools/newfilm.sh <slug> "<Title>" <key> <seed> "<9 moods>"` (moods from: dark tense chill bright;
    key like C, D, E, F, G, A, Bb). This copies the template and synthesizes the 3-min score (96 BPM; bar = 2.5 s).
 3. Write `scenes/a1.js` (bars 0–18 or so) and `scenes/a2.js` (to bar 72 = 180 s). Scenes are
    `{ from: bar(a), to: bar(b), cues: [[sec, sfx, gain]...], draw(t) {...} }` with t local to the scene.
