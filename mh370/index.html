@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MH370</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+  html, body { margin: 0; height: 100%; background: #111; overflow: hidden }
+  canvas { display: block; position: absolute; inset: 0; margin: auto; max-width: 100vw; max-height: 100vh }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script type="module">
+// Render contract: everything on screen is a pure function of t. See CLAUDE.md and docs/ANIMATION_GUIDE.md.
+import { layout } from './lib/motion.js';
+import * as K from './scenes/kit.js';
+
+const q = new URLSearchParams(location.search);
+const W = +q.get('w') || 1080, H = +q.get('h') || 1920;
+const c = document.getElementById('c'); c.width = W; c.height = H;
+const g = c.getContext('2d');
+
+// Fonts must be loaded before kit builds anything that measures text.
+await Promise.race([document.fonts.ready, new Promise((r) => requestAnimationFrame(() => r()))]);
+await Promise.all([`400 100px "Instrument Serif"`, `italic 400 100px "Instrument Serif"`, `400 100px "Noto Sans Thai"`,
+  `600 100px "Noto Sans Thai"`, `800 100px "Noto Sans Thai"`, `700 100px Inter`].map((f) => document.fonts.load(f, 'กขA0').catch(() => {})));
+
+K.init(g, layout(W, H));
+
+const grid = await fetch('beats.json').then((r) => (r.ok ? r.json() : null)).catch(() => null);
+const BEAT = 60 / (grid?.bpm || 96);
+const DUR = 180;
+
+const CH = ['a1', 'a2', 'a3'];
+const SCENES = (await Promise.all(CH.map((n) => import(`./scenes/${n}.js`)))).flatMap((m) => m.default());
+
+function draw(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.fillStyle = K.C.night; g.fillRect(0, 0, W, H);
+  for (const s of SCENES) if (t >= s.from && t < s.to) { g.save(); s.draw(t - s.from, s.to - s.from); g.restore(); }
+}
+
+window.CUES = SCENES.flatMap((s) => (s.cues || []).map(([t, type, gain = 1]) => ({ t: +(s.from + t).toFixed(4), type, gain })))
+  .filter((c) => c.t >= 0 && c.t < DUR).sort((a, b) => a.t - b.t);
+window.DUR = DUR;
+window.BEATS = grid?.beats?.filter((b) => b < DUR) || Array.from({ length: Math.round(DUR / BEAT) }, (_, i) => i * BEAT);
+window.SHOTS = SCENES.map((s) => +s.from.toFixed(3));
+window.LOOP = false;
+window.seek = (t) => { draw(t); return true; };
+
+draw(0);
+window.__ready = true;
+
+if (!q.has('render')) {
+  const start = +q.get('t') || 0, t0 = performance.now();
+  (function loop() { draw((start + (performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
